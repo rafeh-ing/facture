@@ -1,0 +1,7 @@
+com\example\facture\config\AppConfig.class
+com\example\facture\entity\Token.class
+com\example\facture\Repositoty\TokenRepository.class
+com\example\facture\Repositoty\UserRepo.class
+com\example\facture\entity\User.class
+com\example\facture\FactureApplication.class
+com\example\facture\entity\TokenType.class
