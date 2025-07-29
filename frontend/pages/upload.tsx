@@ -7,12 +7,14 @@ export default function UploadPage() {
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(false);
     const [progress, setProgress] = useState(0);
+    const [extractedText, setExtractedText] = useState("");
     const router = useRouter();
 
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.files?.[0]) {
             setFile(e.target.files[0]);
             setError("");
+            setExtractedText(""); // reset extracted text on new file
         }
     };
 
@@ -34,6 +36,7 @@ export default function UploadPage() {
         setLoading(true);
         setProgress(0);
         setError("");
+        setExtractedText("");
 
         try {
             const interval = setInterval(() => {
@@ -44,7 +47,7 @@ export default function UploadPage() {
                 });
             }, 200);
 
-            const res = await fetch("http://localhost:9090/api/upload", {
+            const res = await fetch("http://localhost:9090/api/facture/analyze", {
                 method: "POST",
                 headers: {
                     Authorization: `Bearer ${accessToken}`,
@@ -57,12 +60,10 @@ export default function UploadPage() {
                 throw new Error(text || "Upload failed");
             }
 
-            const data = await res.json();
+            const text = await res.text();
             setProgress(100);
+            setExtractedText(text);
 
-            setTimeout(() => {
-                router.push(`/results?id=${data.id || ""}`);
-            }, 500);
         } catch (err: any) {
             setError(err.message || "Something went wrong");
         } finally {
@@ -156,6 +157,14 @@ export default function UploadPage() {
                             </motion.div>
                         )}
                     </AnimatePresence>
+
+                    {/* Display extracted text */}
+                    {extractedText && (
+                        <div className="mt-6 p-4 bg-gray-600 rounded-lg max-h-72 overflow-y-auto whitespace-pre-wrap text-sm">
+                            <h3 className="font-semibold mb-2 text-blue-400">Texte extrait :</h3>
+                            <pre>{extractedText}</pre>
+                        </div>
+                    )}
                 </div>
 
                 {/* Static dashboard data */}
