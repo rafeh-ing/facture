@@ -16,6 +16,7 @@ public class DocumentAIService {
 
     private static final String TESSDATA_PATH = "C:/Program Files/Tesseract-OCR/tessdata";
     private static final String LANGUAGES = "eng+fra";
+    
 
 
     public String processInvoice(byte[] fileBytes, String mimeType) throws IOException {
@@ -69,11 +70,11 @@ public class DocumentAIService {
     }
 
     private Tesseract getTesseractInstance() {
-        Tesseract tesseract = new Tesseract();
-        tesseract.setDatapath(TESSDATA_PATH);
-        tesseract.setLanguage(LANGUAGES);
-        return tesseract;
-    }
+    Tesseract tesseract = new Tesseract();
+    tesseract.setDatapath(TESSDATA_PATH);  // Doit pointer vers le dossier 'tessdata'
+    tesseract.setLanguage(LANGUAGES);
+    return tesseract;
+}
 
     private String getExtensionFromMimeType(String mimeType) {
         if (mimeType == null) return "png";

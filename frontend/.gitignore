@@ -34,3 +34,80 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+# =========================
+# Java & Spring Boot
+# =========================
+target/
+!.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**/target/
+!**/src/test/**/target/
+
+# =========================
+# Maven / Gradle
+# =========================
+*.log
+*.iml
+*.class
+*.jar
+*.war
+*.ear
+*.db
+*.h2.db
+*.mv.db
+
+# Maven
+.mvn/timing.properties
+.mvn/wrapper/maven-wrapper.properties
+.mvn/wrapper/maven-wrapper.jar
+.mvn/wrapper/maven-wrapper-downloader.jar
+
+# Gradle
+.gradle/
+build/
+out/
+
+# =========================
+# IDE files
+# =========================
+# IntelliJ
+.idea/
+*.iws
+*.ipr
+*.iml
+
+# VSCode
+.vscode/
+*.code-workspace
+
+# Eclipse
+.project
+.classpath
+.settings/
+bin/
+
+# =========================
+# OS specific
+# =========================
+.DS_Store
+Thumbs.db
+
+# =========================
+# Environment & Security
+# =========================
+*.env
+application-*.yml
+application-*.yaml
+application-*.properties
+secret.yml
+secret.yaml
+secret.properties
+
+# =========================
+# Logs & Temp
+# =========================
+logs/
+*.log
+*.tmp
+*.bak
+*.swp
+*.swo

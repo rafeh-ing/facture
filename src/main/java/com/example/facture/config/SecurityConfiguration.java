@@ -26,12 +26,12 @@ public class SecurityConfiguration {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
-                .cors(cors -> {})
-
+                .cors(cors -> {}) // Activate CORS config
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/auth/**").permitAll() // Débloque /api/auth/register & authenticate
-                        .requestMatchers("/api/users/**").permitAll() // accès libre users
+                        .requestMatchers("/api/auth/**").permitAll()   // Auth endpoints
+                        .requestMatchers("/api/users/**").permitAll()  // User endpoints
+                        .requestMatchers("/api/facture/**").permitAll() // ✅ Allow invoice upload
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session
@@ -45,19 +45,18 @@ public class SecurityConfiguration {
         return config.getAuthenticationManager();
     }
 
-    // --- Voici la config CORS autorisant ton frontend ---
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
 
-        configuration.setAllowedOrigins(List.of("http://localhost:3000")); // Ton frontend
+        configuration.setAllowedOrigins(List.of("http://localhost:3000")); // Frontend origin
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(List.of("*"));
-        configuration.setAllowCredentials(true); // Si tu utilises cookies / credentials
-        configuration.setExposedHeaders(List.of("Authorization")); // expose token header si besoin
+        configuration.setAllowCredentials(true); // needed for cookies / auth headers
+        configuration.setExposedHeaders(List.of("Authorization")); // optional
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", configuration); // s’applique partout
+        source.registerCorsConfiguration("/**", configuration);
         return source;
     }
 }
